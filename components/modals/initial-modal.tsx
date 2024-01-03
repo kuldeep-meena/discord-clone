@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useState,useEffect } from "react";
-import FileUpload from "../ui/file-upload";
+import {FileUpload} from "../ui/file-upload";
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -36,7 +36,7 @@ const formSchema = z.object({
     }),
 
 })
-const InitialModel = () => {
+export const InitialModal = () => {
    
     const [isMounted,setIsMounted]=useState(false)
 
@@ -50,6 +50,7 @@ const InitialModel = () => {
             imageUrl: ""
         }
     })
+    console.log("errors",form.formState.errors)
     const isLoading = form.formState.isSubmitting
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
@@ -101,7 +102,7 @@ const InitialModel = () => {
                             <FormField
                                 control={form.control}
                                 name="name"
-                                render={(field) => (
+                                render={({field}) => (
                                     <FormItem>
                                         <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
                                             Server Name
@@ -133,4 +134,3 @@ const InitialModel = () => {
     );
 }
 
-export default InitialModel;

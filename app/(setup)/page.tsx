@@ -2,7 +2,7 @@ import initialProfile from "@/lib/initial-profile";
 import { db } from "@/lib/db";
 //import { redirect } from "next/dist/server/api-utils";
 import { redirect } from "next/navigation";
-import InitialModel from "@/components/modals/initial-modal";
+import {InitialModal} from "@/components/modals/initial-modal";
 const SetupPage = async() => {
     const profile=await initialProfile();
     //now we are going to attempt to find any server for that this profile is a member of//
@@ -22,7 +22,7 @@ const SetupPage = async() => {
       }
 
       //if there is no server for given profile//
-      return <InitialModel/>
+      return <InitialModal/>
 }
  
 export default SetupPage;
