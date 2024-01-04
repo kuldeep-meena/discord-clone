@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -27,6 +29,7 @@ import { Input } from "@/components/ui/input"
 import { useState,useEffect } from "react";
 import {FileUpload} from "../ui/file-upload";
 
+
 const formSchema = z.object({
     name: z.string().min(1, {
         message: "Server name is required.",
@@ -38,8 +41,8 @@ const formSchema = z.object({
 })
 export const InitialModal = () => {
    
-    const [isMounted,setIsMounted]=useState(false)
-
+    const [isMounted,setIsMounted]=useState(false);
+    const router=useRouter();
     useEffect(()=>{
       setIsMounted(true)
     },[])
@@ -50,12 +53,19 @@ export const InitialModal = () => {
             imageUrl: ""
         }
     })
-    console.log("errors",form.formState.errors)
+
+   //console.log("errors",form.formState.errors)
     const isLoading = form.formState.isSubmitting
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    const onSubmit=async (values: z.infer<typeof formSchema>)=> {
+         try{
+              await axios.post("/api/servers",values);
+              form.reset();
+              router.refresh();
+              window.location.reload();
+         }
+        catch(error){
+            console.log(error);
+        }
     }
   
      if(!isMounted){
